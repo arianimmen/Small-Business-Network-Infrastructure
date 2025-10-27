@@ -40,13 +40,18 @@
 
 > **Note:** No superscope is required since the router forwards DHCP requests using `ip helper-address` (DHCP Relay Agent is acitve on R1).
 
+<img width="1077" height="383" alt="image" src="https://github.com/user-attachments/assets/5064986a-25e5-4d37-a9a5-75e20a7e6ad3" />
+ 
+
 ### 3️⃣ Configure Router DHCP Relay
 On R1:
 
 ```bash
 interface GigabitEthernet0/0.10
- ip helper-address 192.168.99.10
+ ip helper-address 192.168.99.1
 interface GigabitEthernet0/0.20
- ip helper-address 192.168.99.10
+ ip helper-address 192.168.99.1
 interface GigabitEthernet0/0.30
- ip helper-address 192.168.99.10
+ ip helper-address 192.168.99.1
+interface GigabitEthernet0/0.99
+ ip helper-address 192.168.99.1
