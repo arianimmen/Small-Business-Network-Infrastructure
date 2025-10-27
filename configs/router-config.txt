@@ -1,1 +1,130 @@
 
+! =====================================================
+! Device: Router R1
+! Project: Small Business Network Infrastructure (GNS3)
+! Description: Router-on-a-Stick configuration
+! Author: Arian
+! =====================================================
+
+Current configuration : 3688 bytes
+!
+! Last configuration change at 11:59:38 UTC Mon Oct 27 2025
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/0.10
+ description ## Sub-Int for VLAN 10 ##
+ encapsulation dot1Q 10
+ ip address 192.168.10.254 255.255.255.0
+!
+interface GigabitEthernet0/0.20
+ description ## Sub-int for VLAN 20 ##
+ encapsulation dot1Q 20
+ ip address 192.168.20.254 255.255.255.0
+!
+interface GigabitEthernet0/0.30
+ description ## Sub-int for VLAN 30 ##
+ encapsulation dot1Q 30
+ ip address 192.168.30.254 255.255.255.0
+!
+interface GigabitEthernet0/0.99
+ description ## Sub-int for VLAN 99 ##
+ encapsulation dot1Q 99
+ ip address 192.168.99.254 255.255.255.0
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
