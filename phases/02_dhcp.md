@@ -55,3 +55,10 @@ interface GigabitEthernet0/0.30
  ip helper-address 192.168.99.1
 interface GigabitEthernet0/0.99
  ip helper-address 192.168.99.1
+```
+
+For Server2, we created a DHCP reservation in VLAN 10 with the IP address 192.168.10.2. This ensures that Server2 always receives the same IP while still using DHCP, which is important for consistent connectivity and proper DNS registration within the domain. 
+
+<img width="560" height="315" alt="image" src="https://github.com/user-attachments/assets/b6020f9e-03fa-421b-955b-0b8c78e49748" />
+
+
