@@ -21,7 +21,7 @@ The simulated environment includes multiple VLANs for different departments, a c
 
 ---
 
-## 🗺️ Network Design
+## 🗺️ Phase 1  (Network Design) 
 The company network consists of one main switch, one router, and a Windows Server for network services.  
 All PCs and servers are connected to the switch, which uses VLANs to separate departments.  
 The router provides communication between VLANs via subinterfaces.
