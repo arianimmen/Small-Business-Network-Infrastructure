@@ -1,0 +1,44 @@
+# ------------------------------
+# AD Group Automation Script
+# Add OU Users to Global and Domain Local Groups
+# Domain: immen.com
+# ------------------------------
+
+Import-Module ActiveDirectory
+
+# ------------------------------
+# Step 1: Define Departments, OUs, and Groups
+# ------------------------------
+$Departments = @(
+    @{OU="OU=IT,DC=immen,DC=com"; GlobalGroup="IT_Global"; DomainGroup="IT_Domain"},
+    @{OU="OU=HR,DC=immen,DC=com"; GlobalGroup="HR_Global"; DomainGroup="HR_Domain"},
+    @{OU="OU=Staff,DC=immen,DC=com"; GlobalGroup="Staff_Global"; DomainGroup="Staff_Domain"}
+)
+
+# ------------------------------
+# Step 2: Process each department
+# ------------------------------
+foreach ($dept in $Departments) {
+
+
+    # Step 2a: Get all users in the OU
+    $Users = Get-ADUser -Filter * -SearchBase $dept.OU
+    Write-Host "Found $($Users.Count) users in OU" $dept.OU
+
+    # Step 2b: Add users to Global Group
+    foreach ($user in $Users) {
+        if (-not (Get-ADGroupMember -Identity $dept.GlobalGroup | Where-Object {$_.SamAccountName -eq $user.SamAccountName})) {
+            Add-ADGroupMember -Identity $dept.GlobalGroup -Members $user.SamAccountName
+            Write-Host "Added user $($user.SamAccountName) to Global Group $($dept.GlobalGroup)"
+        }
+    }
+
+    # Step 2c: Add Global Group to Domain Local Group
+    if (-not (Get-ADGroupMember -Identity $dept.DomainGroup | Where-Object {$_.Name -eq $dept.GlobalGroup})) {
+        Add-ADGroupMember -Identity $dept.DomainGroup -Members $dept.GlobalGroup
+        Write-Host "Added Global Group $($dept.GlobalGroup) to Domain Local Group $($dept.DomainGroup)"
+    }
+
+}
+
+Write-Host "All departments processed successfully!" -ForegroundColor Green
