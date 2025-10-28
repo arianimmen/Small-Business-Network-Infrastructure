@@ -1,0 +1,26 @@
+# Define password for all users
+$Password = ConvertTo-SecureString "P@ssword123" -AsPlainText -Force
+
+# Import CSV
+$Users = Import-Csv "C:\Users\Administrator\Desktop\users.csv"
+
+# Loop through each user
+foreach ($user in $Users) {
+    $Path = "OU=$($user.OU),DC=immen,DC=com"
+
+    New-ADUser `
+        -Name "$($user.First) $($user.Last)" `
+        -GivenName $user.First `
+        -Surname $user.Last `
+        -SamAccountName $user.Username `
+        -UserPrincipalName "$($user.Username)@immen.com" `
+        -Path $Path `
+        -AccountPassword $Password `
+        -Enabled $true `
+        -ChangePasswordAtLogon $true
+
+    Write-Host "Created user $($user.Username) in OU $($user.OU)"
+}
+
+
+
